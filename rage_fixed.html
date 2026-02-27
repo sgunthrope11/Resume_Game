@@ -10,7 +10,7 @@
         body::after { content: ""; position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.4) 50%), linear-gradient(90deg, rgba(255,0,0,0.05), rgba(255,100,0,0.02), rgba(255,0,0,0.05)); z-index: 100; background-size: 100% 2px, 3px 100%; pointer-events: none; }
         
         #game-container { position: relative; width: 100%; height: 100%; max-width: 1000px; max-height: 650px; background: #000; box-shadow: 0 0 100px rgba(255,50,0,0.3); border: 2px solid #330000; display: flex; justify-content: center; align-items: center; }
-        canvas { width: 100%; height: 100%; object-fit: contain; background: #000; display: block; cursor: crosshair; touch-action: none; }
+        canvas { width: 100%; height: 100%; object-fit: contain; background: #000; display: block; touch-action: none; }
         .vignette { position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 150px rgba(0,0,0,0.98); pointer-events: none; z-index: 50; }
         #ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; padding: 10px; z-index: 60; overflow: hidden; }
         
@@ -24,6 +24,7 @@
         .bar-label { position: absolute; left: 5px; top: 1px; font-size: 10px; color: #fff; z-index: 10; font-weight: bold; text-shadow: 1px 1px 2px #000; }
         
         #hp-fill { background: linear-gradient(90deg, #880000, #ff0000); }
+        #over-fill { background: #00ffff; position: absolute; top:0; left:0; width:0%; height:100%; transition: width 0.1s linear; box-shadow: 0 0 10px #00ffff; }
         #stam-fill { background: linear-gradient(90deg, #aa5500, #ffaa00); }
         #rage-fill { background: linear-gradient(90deg, #aa0000, #ff5500); }
         #cd-fill { background: #ffcc00; } 
@@ -31,7 +32,7 @@
 
         .overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(15,0,0,0.98); padding: 30px; text-align: center; pointer-events: auto; border: 2px solid #ff3300; box-shadow: 0 0 60px rgba(255,50,0,0.4); width: 90%; max-width: 800px; max-height: 95vh; overflow-y: auto; overflow-x: hidden; color: #fff; z-index: 200; display: flex; flex-direction: column; }
         
-        #title-screen { background: rgba(10,0,0,0.8); border-color: #ff0000; box-shadow: inset 0 0 100px rgba(255,0,0,0.6); }
+        #title-screen { background: rgba(10,0,0,0.8); border-color: #ff0000; }
         @keyframes heartbeat { 0% { transform: scale(1); text-shadow: 0 0 20px #f00; } 14% { transform: scale(1.1); text-shadow: 0 0 40px #f00, 0 0 80px #f50; } 28% { transform: scale(1); text-shadow: 0 0 20px #f00; } 42% { transform: scale(1.1); text-shadow: 0 0 40px #f00; } 70% { transform: scale(1); text-shadow: 0 0 20px #f00; } }
         .rage-title { color: #f00; font-size: clamp(50px, 10vw, 110px); letter-spacing: clamp(5px, 2vw, 15px); margin: 0; font-weight: bold; animation: heartbeat 2s infinite; padding-right: clamp(5px, 2vw, 15px); }
         
@@ -40,10 +41,10 @@
         .tutorial-box { background: #050000; border: 1px solid #440000; padding: 15px; font-size: 13px; line-height: 1.5; flex-grow: 1; color: #ccc; }
         .custom-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: #000; padding: 15px; border: 1px solid #440000; }
         .custom-item { display: flex; align-items: center; justify-content: space-between; font-size: 11px; }
-        select { background: #110000; color: #ffaa00; border: 1px solid #ff3300; padding: 5px; font-size: 11px; font-weight: bold; outline: none; width: 130px; cursor: pointer; }
+        select { background: #110000; color: #ffaa00; border: 1px solid #ff3300; padding: 5px; font-size: 11px; outline: none; width: 130px; cursor: pointer; }
         
         button { padding: 12px 25px; cursor: pointer; background: #ff3300; border: 2px solid #fff; font-weight: bold; font-size: 16px; color: #fff; margin-top: 10px; transition: all 0.2s; text-shadow: 1px 1px 2px #000;}
-        button:hover { background: #fff; color: #f00; border-color: #ff3300; transform: scale(1.05); box-shadow: 0 0 20px rgba(255,50,0,0.6); }
+        button:hover { background: #fff; color: #f00; transform: scale(1.05); }
         .skill-row { display: flex; gap: 10px; justify-content: center; margin-top: 5px; flex-wrap: wrap;}
         
         #lost-screen { display: none; background: rgba(25,0,0,0.98); border-color: #f00; z-index: 300; }
@@ -60,7 +61,7 @@
         .m-btn { border-radius: 50%; font-weight: bold; color: #fff; text-shadow: 1px 1px 2px #000; touch-action: none; display: flex; align-items: center; justify-content: center; opacity: 0.8;}
         .m-btn:active { opacity: 1; transform: scale(0.9); }
 
-        @keyframes bountyPulse { 0% { transform: scale(1); text-shadow: 0 0 5px #0f6; } 50% { transform: scale(1.05); text-shadow: 0 0 15px #0f6; } 100% { transform: scale(1); text-shadow: 0 0 5px #0f6; } }
+        @keyframes bountyPulse { 0% { text-shadow: 0 0 5px #0f6; } 50% { transform: scale(1.05); text-shadow: 0 0 15px #0f6; } 100% { text-shadow: 0 0 5px #0f6; } }
         .bounty-done { animation: bountyPulse 0.5s infinite; color: #0f6 !important; }
     </style>
 </head>
@@ -78,7 +79,11 @@
         
         <div class="stats-container panel" id="hud" style="display: none;">
             <div id="player-tag" style="font-size: 14px; font-weight: bold; color:#fc0; margin-bottom: 5px; text-shadow: 0 0 5px #f50;">STATUS: ACTIVE</div>
-            <div class="bar"><span class="bar-label">HP</span><div id="hp-fill" class="bar-fill"></div></div>
+            <div class="bar">
+                <span class="bar-label">HP</span>
+                <div id="hp-fill" class="bar-fill"></div>
+                <div id="over-fill"></div>
+            </div>
             <div class="bar"><span class="bar-label">STAMINA</span><div id="stam-fill" class="bar-fill"></div></div>
             <div class="bar"><span class="bar-label">RAGE</span><div id="rage-fill" class="bar-fill" style="width:0%"></div></div>
             <div class="bar"><span class="bar-label">SPECIAL [E]</span><div id="cd-fill" class="bar-fill" style="width:100%"></div></div>
@@ -118,8 +123,8 @@
                 <div class="custom-item">Visor: <select id="c-visor" onchange="updateColors()"><option value="#ff3300">Inferno</option><option value="#ffcc00">Solar</option><option value="#00ffff">Plasma</option><option value="#00ff66">Toxic</option></select></div>
             </div>
             <div style="display: flex; gap: 20px; justify-content: center; margin-top: 25px; flex-wrap: wrap;">
-                <button onclick="pickClass('warrior')" style="background: #a00; border-color: #f50;">JUGGERNAUT (CLEAVE)</button>
-                <button onclick="pickClass('mage')" style="background: #c50; border-color: #fc0;">SUNWALKER (BEAM)</button>
+                <button onclick="pickClass('warrior')" style="background: #a00; border-color: #f50;">JUGGERNAUT (WHIRLWIND)</button>
+                <button onclick="pickClass('mage')" style="background: #c50; border-color: #fc0;">SUNWALKER (NOVA)</button>
             </div>
         </div>
         
@@ -218,15 +223,8 @@ for(let f=0; f<3; f++) {
     mfSprites.push(c);
 }
 
-let mouseX = 500, mouseY = 325, keys = {}, userPaused = false;
+let keys = {}, userPaused = false;
 let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-// GLOBAL MOUSE TRACKING
-window.addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    mouseX = (e.clientX - rect.left) * (canvas.width / rect.width); 
-    mouseY = (e.clientY - rect.top) * (canvas.height / rect.height);
-});
 
 window.addEventListener('keydown', (e) => {
     keys[e.code] = true;
@@ -238,9 +236,10 @@ window.addEventListener('keydown', (e) => {
 window.addEventListener('keyup', (e) => keys[e.code] = false);
 window.addEventListener('blur', () => { keys = {}; if(gameState === 'PLAYING') { userPaused = true; document.getElementById('pause-overlay').style.display = 'flex'; } }); 
 
-// MOBILE JOYSTICKS
+// MOBILE JOYSTICKS / TOUCH ZONES
 let leftJoy = {active: false, x: 0, y: 0, currX: 0, currY: 0, id: null};
-let rightJoy = {active: false, x: 0, y: 0, currX: 0, currY: 0, id: null};
+let rightJoy = {active: false, id: null}; 
+
 if(isMobile) {
     const bindBtn = (id, key, func) => {
         let btn = document.getElementById(id);
@@ -256,11 +255,14 @@ if(isMobile) {
         for(let i=0; i<e.changedTouches.length; i++) {
             let t = e.changedTouches[i]; let tx = (t.clientX - rect.left) * scaleX; let ty = (t.clientY - rect.top) * scaleY;
             if(isStart) {
-                if(t.clientX < window.innerWidth/2 && !leftJoy.active) { leftJoy.active = true; leftJoy.id = t.identifier; leftJoy.x = tx; leftJoy.y = ty; leftJoy.currX = tx; leftJoy.currY = ty; } 
-                else if(t.clientX >= window.innerWidth/2 && !rightJoy.active) { rightJoy.active = true; rightJoy.id = t.identifier; rightJoy.x = tx; rightJoy.y = ty; rightJoy.currX = tx; rightJoy.currY = ty; keys['Space'] = true; }
+                if(t.clientX < window.innerWidth/2 && !leftJoy.active) { 
+                    leftJoy.active = true; leftJoy.id = t.identifier; leftJoy.x = tx; leftJoy.y = ty; leftJoy.currX = tx; leftJoy.currY = ty; 
+                } 
+                else if(t.clientX >= window.innerWidth/2 && !rightJoy.active) { 
+                    rightJoy.active = true; rightJoy.id = t.identifier; keys['Space'] = true; 
+                }
             } else {
                 if(t.identifier === leftJoy.id) { leftJoy.currX = tx; leftJoy.currY = ty; }
-                else if(t.identifier === rightJoy.id) { rightJoy.currX = tx; rightJoy.currY = ty; }
             }
         }
     };
@@ -294,17 +296,17 @@ function showSetup() {
     document.getElementById('setup-screen').style.display = 'flex';
     let tutBox = document.getElementById('tutorial-text');
     if(isMobile) {
-        tutBox.innerHTML = '<span class="commander-name">General Seven:</span>"Mobile: Left drag to move. Right drag to aim/attack. Side buttons for skills."';
+        tutBox.innerHTML = '<span class="commander-name">General Seven:</span>"Mobile: Left drag to move/aim. Tap right side to fire. Side buttons for skills."';
         document.getElementById('mobile-btns').style.display = 'block';
     } else {
-        tutBox.innerHTML = '<span class="commander-name">General Seven:</span>"Desktop: WASD to maneuver. MOUSE to aim. Hold SPACE to attack. [SHIFT]=Dash, [E]=Special, [P/ESC]=Pause."';
+        tutBox.innerHTML = '<span class="commander-name">General Seven:</span>"Desktop: WASD to maneuver & aim. Hold SPACE to trigger omnidirectional attack. [SHIFT]=Dash, [E]=Special, [P/ESC]=Pause."';
         document.getElementById('mobile-btns').style.display = 'none';
     }
     drawSeven('sevenAvatar');
 }
 
 const player = {
-    x: 500, y: 325, hp: 100, maxHp: 100, stam: 120, maxStam: 120, rage: 0, maxRage: 100,
+    x: 500, y: 325, hp: 100, maxHp: 100, overHp: 0, stam: 120, maxStam: 120, rage: 0, maxRage: 100,
     spd: 6.5, atkRadius: 100, damage: 35, lvl: 1, 
     colors: { skin: '#3d2b1f', shirt: '#2a0000', pants: '#0a0a0a', visor: '#f30' },
     class: '', atkFrame: 0, dodgeTimer: 0, specialCooldown: 0, maxSpecialCooldown: 60,
@@ -316,12 +318,12 @@ let currentQuest = { active: false, type: '', target: 0, progress: 0, text: '' }
 let roundStats = { dmgTaken: 0, specialKills: 0 }, questCooldown = false;
 
 function generateQuest() {
-    let types = ['special_kills', 'primary_kills', 'med_patches']; 
+    let types = ['special_kills', 'primary_kills']; 
     currentQuest.type = types[Math.floor(Math.random()*types.length)];
     currentQuest.active = true; currentQuest.progress = 0;
-    if(currentQuest.type === 'special_kills') { currentQuest.target = 5 + Math.floor(currentRound/2); currentQuest.text = `BOUNTY: ${currentQuest.target} SPECIAL KILLS`; } 
-    else if (currentQuest.type === 'primary_kills') { currentQuest.target = 10 + currentRound * 2; currentQuest.text = `BOUNTY: ${currentQuest.target} PRIMARY KILLS`; } 
-    else { currentQuest.target = 1 + Math.floor(currentRound/2); currentQuest.text = `BOUNTY: GET ${currentQuest.target} MED-PATCHES`; }
+    // Massive Kill Targets for massive enemy counts
+    if(currentQuest.type === 'special_kills') { currentQuest.target = 50 + Math.floor(currentRound*20); currentQuest.text = `BOUNTY: ${currentQuest.target} SPECIAL KILLS`; } 
+    else if (currentQuest.type === 'primary_kills') { currentQuest.target = 150 + currentRound * 50; currentQuest.text = `BOUNTY: ${currentQuest.target} PRIMARY KILLS`; } 
     refreshSkillPointsUI();
 }
 
@@ -345,31 +347,40 @@ function updateColors() {
     drawSeven('sevenAvatar');
 }
 
-let gameState = 'TITLE', currentRound = 1, skillPoints = 0, enemies = [], bossProjectiles = [], particles = [], vFx = [], drops = [], isPaused = false, screenShake = 0;
+let gameState = 'TITLE', currentRound = 1, skillPoints = 0;
+let enemies = [], bossProjectiles = [], enemyProjectiles = [], particles = [], vFx = [], indicators = [], drops = [];
+let isPaused = false, screenShake = 0, globalEnemyShootTimer = 0;
 
 function spawnFx(x,y,c,amt,spd,life,sz) {
+    // Optimization: Culling particles if there are too many (happens when 50 enemies die simultaneously)
+    if (particles.length > 300) return;
     for(let i=0;i<amt;i++){ let a=Math.random()*Math.PI*2, s=Math.random()*spd; particles.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:life+Math.random()*life,c:c,sz:sz+Math.random()*3}); }
 }
 
 function pickClass(c) {
     player.class = c;
     if(c === 'warrior') {
-        player.hp=300; player.maxHp=300; player.atkRadius=140; player.damage=95; player.maxSpecialCooldown=60; document.getElementById('warrior-skills').style.display='flex';
+        player.hp=300; player.maxHp=300; player.atkRadius=150; player.damage=95; player.maxSpecialCooldown=60; document.getElementById('warrior-skills').style.display='flex';
     } else {
-        player.hp=180; player.maxHp=180; player.atkRadius=650; player.damage=30; player.maxSpecialCooldown=45; document.getElementById('mage-skills').style.display='flex';
+        player.hp=180; player.maxHp=180; player.atkRadius=200; player.damage=30; player.maxSpecialCooldown=45; document.getElementById('mage-skills').style.display='flex';
     }
     document.getElementById('setup-screen').style.display='none'; document.getElementById('hud').style.display='block'; document.getElementById('combat-metrics').style.display='block';
     gameState = 'PLAYING'; refreshSkillPointsUI(); spawnRound();
 }
 
 function spawnRound() {
-    enemies = []; drops = []; bossProjectiles = []; roundStats.dmgTaken = 0; roundStats.specialKills = 0; generateQuest();
-    let count = (currentRound * 14); let hpMult = 1 + (currentRound * 1.5);
+    enemies = []; drops = []; bossProjectiles = []; enemyProjectiles = []; roundStats.dmgTaken = 0; roundStats.specialKills = 0; generateQuest();
+    // THE 20X MULTIPLIER (Massive Horde)
+    let count = (currentRound * 14) * 20; 
+    let hpMult = 1 + (currentRound * 1.5);
     for(let i=0; i<count; i++) {
-        let sx, sy;
-        if(Math.random()>0.5) { sx = player.x<500 ? 1100+Math.random()*200 : -100-Math.random()*200; sy = Math.random()*650; }
-        else { sx = Math.random()*1000; sy = player.y<325 ? 750+Math.random()*200 : -100-Math.random()*200; }
-        enemies.push({ x: sx, y: sy, hp: 45*hpMult, maxHp: 45*hpMult, spd: 2.2+(Math.random()*1.5), wingTimer: Math.random()*10, flankAngle: (Math.random()-.5)*Math.PI, ai: Math.random()>.5?'f':'d', w: 60 });
+        // Spawn them in a massive outer ring converging inward
+        let angle = Math.random() * Math.PI * 2;
+        let dist = 800 + Math.random() * 400; // 800 to 1200 pixels away
+        let sx = 500 + Math.cos(angle) * dist;
+        let sy = 325 + Math.sin(angle) * dist;
+        
+        enemies.push({ x: sx, y: sy, hp: 20*hpMult, maxHp: 20*hpMult, spd: 2.2+(Math.random()*1.5), wingTimer: Math.random()*10, flankAngle: (Math.random()-.5)*Math.PI, ai: Math.random()>.5?'f':'d', w: 60 });
     }
 }
 
@@ -391,8 +402,7 @@ function refreshSkillPointsUI(skipQuestText = false) {
     document.getElementById('m-spec').innerText = player.class === 'warrior' ? `${player.stompRadius} Rad` : `${player.chainBounces} Jumps`;
     if(!skipQuestText && currentQuest.active) {
         let qt = document.getElementById('quest-tracker'); 
-        let prog = currentQuest.progress;
-        qt.innerText = `${currentQuest.text} (${Math.floor(prog)}/${currentQuest.target})`; qt.style.color = "#fc0";
+        qt.innerText = `${currentQuest.text} (${Math.floor(currentQuest.progress)}/${currentQuest.target})`; qt.style.color = "#fc0";
     }
 }
 
@@ -404,30 +414,31 @@ function buySkill(type) {
     skillPoints--; refreshSkillPointsUI();
 }
 
+// ----------------------------------------
+// GAME LOGIC UPDATE (FIXED TIME STEP 60Hz)
+// ----------------------------------------
 function update() {
     if(gameState !== 'PLAYING' || isPaused || userPaused) return;
+    indicators = []; 
     
-    if(isMobile) {
-        if(leftJoy.active) {
-            let dx = leftJoy.currX - leftJoy.x; let dy = leftJoy.currY - leftJoy.y;
-            if(Math.hypot(dx, dy) > 10) { keys['KeyW'] = dy < -10; keys['KeyS'] = dy > 10; keys['KeyA'] = dx < -10; keys['KeyD'] = dx > 10; } 
-            else { keys['KeyW']=keys['KeyS']=keys['KeyA']=keys['KeyD']=false; }
-        }
-        if(rightJoy.active) {
-            let dx = rightJoy.currX - rightJoy.x; let dy = rightJoy.currY - rightJoy.y;
-            if(Math.hypot(dx, dy) > 5) { player.aimAngle = Math.atan2(dy, dx); mouseX = player.x + 16 + dx; mouseY = player.y + 16 + dy; }
-        }
+    // OMNIDIRECTIONAL WASD AIM & MOVEMENT
+    let moveDx = 0, moveDy = 0;
+    if(isMobile && leftJoy.active) {
+        moveDx = leftJoy.currX - leftJoy.x; moveDy = leftJoy.currY - leftJoy.y;
+        if(Math.hypot(moveDx, moveDy) > 10) { keys['KeyW'] = moveDy < -10; keys['KeyS'] = moveDy > 10; keys['KeyA'] = moveDx < -10; keys['KeyD'] = moveDx > 10; } 
+        else { keys['KeyW']=keys['KeyS']=keys['KeyA']=keys['KeyD']=false; moveDx = 0; moveDy = 0; }
+    } else {
+        if(keys['KeyD']) moveDx += 1; if(keys['KeyA']) moveDx -= 1;
+        if(keys['KeyS']) moveDy += 1; if(keys['KeyW']) moveDy -= 1;
     }
-    if(!isMobile || !rightJoy.active) player.aimAngle = Math.atan2(mouseY - (player.y + 16), mouseX - (player.x + 16));
-    player.isMoving = false;
+
+    if (moveDx !== 0 || moveDy !== 0) { player.aimAngle = Math.atan2(moveDy, moveDx); }
+    player.isMoving = (moveDx !== 0 || moveDy !== 0);
     
-    // WASD DASH
+    // DASH
     if(keys['ShiftLeft'] && player.dodgeTimer === 0 && player.stam >= 20) {
         player.dodgeTimer = 15; player.stam -= 20; screenShake = 5;
-        let dx = keys['KeyD']?1:keys['KeyA']?-1:0; let dy = keys['KeyS']?1:keys['KeyW']?-1:0;
-        if(dx === 0 && dy === 0) { dx = Math.cos(player.aimAngle); dy = Math.sin(player.aimAngle); } 
-        else { let dist = Math.hypot(dx,dy); dx /= dist; dy /= dist; }
-        player.dashVx = dx; player.dashVy = dy;
+        player.dashVx = Math.cos(player.aimAngle); player.dashVy = Math.sin(player.aimAngle);
     }
     
     if(player.dodgeTimer > 0) {
@@ -435,47 +446,72 @@ function update() {
         if(player.dodgeTimer%2===0) player.ghostTrails.push({x: player.x, y: player.y, life: 10, color: player.colors.visor});
         let dSpd = player.class === 'warrior' ? 18 : 22; player.x += player.dashVx * dSpd; player.y += player.dashVy * dSpd;
         if(player.class === 'mage') spawnFx(player.x+16, player.y+16, player.colors.visor, 1, 5, 10, 4);
-    } else { player.isInvuln = false; movePlayer(player.spd); }
+    } else { 
+        player.isInvuln = false; 
+        if(keys['KeyW']) player.y -= player.spd; if(keys['KeyS']) player.y += player.spd;
+        if(keys['KeyA']) player.x -= player.spd; if(keys['KeyD']) player.x += player.spd;
+    }
+    
+    player.x = Math.max(0, Math.min(968, player.x)); player.y = Math.max(0, Math.min(618, player.y));
     
     if(player.isMoving) player.legSwing += 0.6; else player.legSwing = 0;
     if(player.specialCooldown > 0) player.specialCooldown--;
+    if(globalEnemyShootTimer > 0) globalEnemyShootTimer--;
+    
     if(player.isRaging > 0) {
         player.isRaging--; player.stam = player.maxStam;
         if(Math.random()>0.5) spawnFx(player.x+16, player.y+16, player.colors.visor, 1, 4, 10, 3);
     }
     if(player.stam < player.maxStam) player.stam += (player.class==='mage'?0.8:0.6); 
     
-    // PRIORITY INPUTS
+    // PRIORITY INPUTS (SIMULTANEOUS SPACE + E ALLOWED)
     let specialUsed = false;
     if(keys['KeyE'] && player.specialCooldown === 0) {
         if(player.class === 'warrior' && player.stam >= 40) { executeStomp(); specialUsed = true; }
         else if(player.class === 'mage' && player.stam >= 30) { executeChainLightning(); specialUsed = true; }
     }
-    if(keys['Space'] && !specialUsed) {
-        if(player.class === 'warrior' && player.atkFrame === 0 && player.stam >= 15) { player.atkFrame = 16; player.stam -= 15; screenShake = 8; checkWarriorCleave(); } 
-        else if (player.class === 'mage' && player.stam >= 2) { player.atkFrame = 5; player.stam -= 2; screenShake = 2; checkMageBeam(); }
+    if(keys['Space']) {
+        // Evaluate Space even if Special was used this frame, as long as logic allows it.
+        if(player.class === 'warrior' && player.atkFrame === 0 && player.stam >= 15) { player.atkFrame = 16; player.stam -= 15; screenShake = 8; checkWarriorWhirlwind(); } 
+        else if (player.class === 'mage' && player.atkFrame === 0 && player.stam >= 2) { player.atkFrame = 5; player.stam -= 2; screenShake = 2; checkMageNova(); }
     }
     if(player.atkFrame > 0) player.atkFrame--;
     
     for(let i = drops.length - 1; i >= 0; i--) {
         let d = drops[i]; d.life--;
         let dx = player.x+16 - d.x; let dy = player.y+16 - d.y;
-        if(dx*dx + dy*dy < 1225) { 
-            player.hp = Math.min(player.maxHp, player.hp + 20);
-            spawnFx(d.x, d.y, '#0f6', 10, 10, 15, 4); drops.splice(i, 1); checkQuest('med_patches'); continue;
+        if(dx*dx + dy*dy < 1225) { // 35 squared
+            let overLimit = player.maxHp * 0.1;
+            if(player.hp < player.maxHp) { player.hp = Math.min(player.maxHp, player.hp + 20); } 
+            else if (player.overHp < overLimit) { player.overHp = Math.min(overLimit, player.overHp + 5); }
+            spawnFx(d.x, d.y, '#0f6', 10, 10, 15, 4); drops.splice(i, 1); continue;
         }
         if(d.life <= 0) drops.splice(i, 1);
     }
     
     for(let i = bossProjectiles.length - 1; i >= 0; i--) {
-        let p = bossProjectiles[i]; let dx = player.x+16 - p.x; let dy = player.y+16 - p.y; let dist = Math.hypot(dx,dy);
+        let p = bossProjectiles[i]; let dx = player.x+16 - p.x; let dy = player.y+16 - p.y; let distSq = dx*dx + dy*dy;
+        let dist = Math.sqrt(distSq);
         p.x += (dx/dist) * p.spd; p.y += (dy/dist) * p.spd;
         if(Math.random()>0.5) spawnFx(p.x, p.y, '#f50', 1, 3, 10, 3);
-        if(dist < 16 && !player.isInvuln) {
+        if(distSq < 256 && !player.isInvuln) {
             player.hp -= 15; roundStats.dmgTaken += 15; screenShake = 10; player.rage = Math.min(player.rage + 0.15, player.maxRage);
             spawnFx(p.x, p.y, '#f00', 15, 10, 15, 5); bossProjectiles.splice(i,1); refreshSkillPointsUI(); continue;
         }
         p.life--; if(p.life <= 0) bossProjectiles.splice(i,1);
+    }
+    
+    // NEW RANGED ENEMY PROJECTILES LOOP
+    for(let i = enemyProjectiles.length - 1; i >= 0; i--) {
+        let p = enemyProjectiles[i];
+        p.x += p.vx; p.y += p.vy;
+        let dx = player.x+16 - p.x; let dy = player.y+16 - p.y; let distSq = dx*dx + dy*dy;
+        if(Math.random() > 0.6) spawnFx(p.x, p.y, '#f0f', 1, 2, 8, 2);
+        if(distSq < 256 && !player.isInvuln) {
+            player.hp -= 5; roundStats.dmgTaken += 5; screenShake = 4;
+            spawnFx(p.x, p.y, '#f00', 8, 8, 12, 3); enemyProjectiles.splice(i,1); refreshSkillPointsUI(); continue;
+        }
+        p.life--; if(p.life <= 0) enemyProjectiles.splice(i,1);
     }
     
     for(let i = enemies.length - 1; i >= 0; i--) {
@@ -483,32 +519,54 @@ function update() {
         if(en.type === 'boss') { updateBoss(en); } 
         else {
             let targetX = player.x + 16; let targetY = player.y + 16;
+            let pDx = targetX - en.x, pDy = targetY - en.y;
+            let distToPlayerSq = pDx*pDx + pDy*pDy;
+            
             if(en.ai === 'f') { // Flank
                 let pVx = keys['KeyD']?1:keys['KeyA']?-1:0; let pVy = keys['KeyS']?1:keys['KeyW']?-1:0;
-                let distToPlayerSq = Math.pow(player.x+16 - en.x, 2) + Math.pow(player.y+16 - en.y, 2);
                 if(distToPlayerSq > 40000) { let lead = Math.sqrt(distToPlayerSq) / en.spd * 0.5; targetX += pVx * lead * player.spd + Math.cos(en.flankAngle) * 80; targetY += pVy * lead * player.spd + Math.sin(en.flankAngle) * 80; }
             }
-            let dx = targetX - en.x, dy = targetY - en.y, dist = Math.hypot(dx, dy);
-            if(dist > 5) { en.x += (dx/dist) * en.spd; en.y += (dy/dist) * en.spd; en.angle = Math.atan2(player.y+16 - en.y, player.x+16 - en.x); }
-            en.wingTimer += 0.4; en.x = Math.max(-20, Math.min(980, en.x)); en.y = Math.max(-20, Math.min(630, en.y));
+            
+            // MATH OPTIMIZATION: Avoid hypot
+            let dx = targetX - en.x, dy = targetY - en.y, targetDistSq = dx*dx + dy*dy;
+            if(targetDistSq > 25) { let dist = Math.sqrt(targetDistSq); en.x += (dx/dist) * en.spd; en.y += (dy/dist) * en.spd; en.angle = Math.atan2(pDy, pDx); }
+            en.wingTimer += 0.4; en.x = Math.max(-200, Math.min(1200, en.x)); en.y = Math.max(-200, Math.min(850, en.y)); // Give outer spawn room
 
-            if(Math.pow(player.x+16 - en.x, 2) + Math.pow(player.y+16 - en.y, 2) < 676 && !player.isInvuln) { 
-                let dmg = 1.5 + (currentRound*0.3); player.hp -= dmg; roundStats.dmgTaken += dmg; 
-                player.rage = Math.min(player.rage + 0.03, player.maxRage); screenShake = 6; refreshSkillPointsUI();
-                if(Math.random()>0.5) spawnFx(player.x+16, player.y+16, '#f00', 1, 5, 5, 4);
+            // ARTILLERY FIRE (Farthest Enemies)
+            if (distToPlayerSq > 120000 && distToPlayerSq < 400000) {
+                if (globalEnemyShootTimer <= 0 && Math.random() < 0.1) {
+                    let d = Math.sqrt(distToPlayerSq);
+                    enemyProjectiles.push({x: en.x, y: en.y, vx: (pDx/d)*4, vy: (pDy/d)*4, life: 250});
+                    globalEnemyShootTimer = 45; // 0.75 second gap between ANY artillery shot
+                }
+            }
+
+            if(distToPlayerSq < 676 && !player.isInvuln) { 
+                let dmg = 0.2 + (currentRound*0.05); // Nerfed collision dmg due to 20x enemies
+                if (player.overHp > 0) { player.overHp -= dmg; if (player.overHp < 0) { player.hp += player.overHp; player.overHp = 0; } } 
+                else { player.hp -= dmg; }
+                roundStats.dmgTaken += dmg; 
+                player.rage = Math.min(player.rage + 0.01, player.maxRage); screenShake = 2; refreshSkillPointsUI();
+                if(Math.random()>0.8) spawnFx(player.x+16, player.y+16, '#f00', 1, 5, 5, 4);
             }
         }
         
         if(en.hp <= 0) {
             if(en.type === 'boss' && en.state === 'intro') { en.hp = en.maxHp; continue; }
-            spawnFx(en.x, en.y, en.type==='boss'?'#f30':'#f50', en.type==='boss'?50:10, 15, 20, 5);
+            if(Math.random()>0.8) spawnFx(en.x, en.y, en.type==='boss'?'#f30':'#f50', en.type==='boss'?50:2, 10, 15, 5); // Optimization
             if(en.type !== 'boss') {
-                if(Math.random() < 0.12) drops.push({x: en.x, y: en.y, life: 800}); 
+                if(Math.random() < 0.05) drops.push({x: en.x, y: en.y, life: 800}); // Drop chance 5%
                 if(en.killedBySpecial) checkQuest('special_kills'); else checkQuest('primary_kills');
             } else { gameState = 'WIN'; document.getElementById('win-screen').style.display = 'flex'; }
             enemies.splice(i, 1);
         }
     }
+    
+    // Handle Visual Life Cycles
+    if (screenShake > 0) { screenShake *= 0.8; if(screenShake < 0.5) screenShake = 0; }
+    for(let i = vFx.length - 1; i >= 0; i--) { vFx[i].l--; if(vFx[i].l <= 0) vFx.splice(i, 1); }
+    for(let i = player.ghostTrails.length - 1; i >= 0; i--) { player.ghostTrails[i].life--; if(player.ghostTrails[i].life<=0) player.ghostTrails.splice(i,1); }
+    for(let i = particles.length - 1; i >= 0; i--) { particles[i].x += particles[i].vx; particles[i].y += particles[i].vy; particles[i].life--; if(particles[i].life <= 0) particles.splice(i,1); }
     
     if(enemies.length === 0 && currentRound <= 6) { isPaused = true; evaluateRound(); refreshSkillPointsUI(); document.getElementById('round-clear').style.display = 'flex'; drawSeven('sevenAvatar2'); }
     updateUI();
@@ -519,11 +577,12 @@ function executeStomp() {
     let radius = player.stompRadius + (player.isRaging > 0 ? 100 : 0); let dmg = player.damage * 2.5 * (player.isRaging > 0 ? 1.5 : 1);
     vFx.push({ t: 'ring', x: player.x+16, y: player.y+16, mr: radius, l: 20, ml: 20, c: player.colors.visor });
     spawnFx(player.x+16, player.y+16, '#f30', 25, 20, 20, 6);
+    let rSq = radius*radius;
 
     enemies.forEach(en => {
         if(en.type === 'boss' && en.state === 'intro') return;
         let dx = en.x - (player.x + 16), dy = en.y - (player.y + 16), distSq = dx*dx + dy*dy;
-        if(distSq < radius*radius) {
+        if(distSq < rSq) {
             en.hp -= dmg; if(en.hp <= 0) en.killedBySpecial = true;
             player.rage = Math.min(player.rage + 0.6, player.maxRage); 
             if(en.type !== 'boss') { let dist = Math.sqrt(distSq); en.x += (dx/dist) * 180; en.y += (dy/dist) * 180; }
@@ -555,46 +614,40 @@ function executeChainLightning() {
     if(pts.length > 1) vFx.push({ t: 'chain', pts: pts, l: 15, ml: 15, c: player.colors.visor });
 }
 
-function checkWarriorCleave() {
+// OMNIDIRECTIONAL WHIRLWIND
+function checkWarriorWhirlwind() {
     let reach = player.atkRadius + (player.isRaging>0 ? 50 : 0); let dmg = player.damage * (player.isRaging>0 ? 2 : 1);
+    let reachSq = reach*reach;
     enemies.forEach(en => {
         if(en.type === 'boss' && en.state === 'intro') return;
         let dx = en.x - (player.x + 16), dy = en.y - (player.y + 16), distSq = dx*dx + dy*dy;
-        if(distSq < reach*reach) {
-            let angleToEnemy = Math.atan2(dy, dx); let diff = Math.abs(angleToEnemy - player.aimAngle);
-            if (diff > Math.PI) diff = 2 * Math.PI - diff; 
-            if(diff < Math.PI / 2.2) { 
-                en.hp -= dmg; player.rage = Math.min(player.rage + 0.15, player.maxRage); 
-                if(en.type !== 'boss') { en.x += Math.cos(player.aimAngle) * 45; en.y += Math.sin(player.aimAngle) * 45; }
-                spawnFx(en.x, en.y, '#fa0', 4, 10, 15, 4);
-            }
+        if(distSq < reachSq) {
+            en.hp -= dmg; player.rage = Math.min(player.rage + 0.05, player.maxRage); 
+            if(en.type !== 'boss') { let d = Math.sqrt(distSq)||1; en.x += (dx/d)*20; en.y += (dy/d)*20; }
+            if(Math.random()>0.5) spawnFx(en.x, en.y, '#fa0', 2, 10, 15, 4);
         }
     });
 }
 
-function checkMageBeam() {
+// OMNIDIRECTIONAL NOVA - FIXED FOR FULL RADIUS SQUARED DISTANCE
+function checkMageNova() {
     let reach = player.atkRadius; let dmg = player.damage * (player.isRaging>0 ? 3 : 1);
-    let bEX = player.x + 16 + Math.cos(player.aimAngle) * reach; let bEY = player.y + 16 + Math.sin(player.aimAngle) * reach;
+    let reachSq = reach*reach;
     enemies.forEach(en => {
         if(en.type === 'boss' && en.state === 'intro') return;
-        // Fixed: Added enemy width to collision detection
-        let enemyRadius = (en.w || 60) / 2;
-        if(checkLineCircle(player.x+16, player.y+16, bEX, bEY, en.x, en.y, enemyRadius + 10)) {
-            en.hp -= dmg; player.rage = Math.min(player.rage + 0.02, player.maxRage); 
-            if(en.type !== 'boss') { en.x += Math.cos(player.aimAngle) * 3; en.y += Math.sin(player.aimAngle) * 3; }
-            if(Math.random()>0.5) spawnFx(en.x, en.y, player.colors.visor, 1, 10, 10, 3);
+        let dx = en.x - (player.x+16), dy = en.y - (player.y+16), distSq = dx*dx + dy*dy;
+        if(distSq < reachSq) {
+            en.hp -= dmg * 0.2; // Ticks 5 times per attack
+            player.rage = Math.min(player.rage + 0.01, player.maxRage); 
+            if(en.type !== 'boss') { let d = Math.sqrt(distSq)||1; en.x += (dx/d)*3; en.y += (dy/d)*3; }
+            if(Math.random()>0.8) spawnFx(en.x, en.y, player.colors.visor, 1, 10, 10, 3);
         }
     });
-}
-
-function movePlayer(s) {
-    if(keys['KeyW']) { player.y -= s; player.isMoving = true; } if(keys['KeyS']) { player.y += s; player.isMoving = true; }
-    if(keys['KeyA']) { player.x -= s; player.isMoving = true; } if(keys['KeyD']) { player.x += s; player.isMoving = true; }
-    player.x = Math.max(0, Math.min(968, player.x)); player.y = Math.max(0, Math.min(618, player.y));
 }
 
 function updateUI() {
     document.getElementById('hp-fill').style.width = (player.hp/player.maxHp)*100 + '%'; document.getElementById('stam-fill').style.width = (player.stam/player.maxStam)*100 + '%'; document.getElementById('rage-fill').style.width = (player.rage/player.maxRage)*100 + '%';
+    document.getElementById('over-fill').style.width = (player.overHp/player.maxHp)*100 + '%'; document.getElementById('over-fill').style.left = (player.hp/player.maxHp)*100 + '%';
     let cdPercent = player.specialCooldown === 0 ? 100 : 100 - (player.specialCooldown / player.maxSpecialCooldown) * 100;
     document.getElementById('cd-fill').style.width = cdPercent + '%'; document.getElementById('cd-fill').style.background = cdPercent === 100 ? '#fc0' : '#400';
     document.getElementById('lvl-text').innerText = `WAVE ${currentRound}/6`;
@@ -616,34 +669,36 @@ function updateBoss(b) {
         b.x -= 5; 
         if(b.x <= 750) { b.state = 'idle'; b.timer = 0; document.getElementById('boss-ui').style.opacity = '1'; screenShake = 60; } 
     } else if(b.state === 'idle') {
-        b.y += Math.sin(b.timer/20) * 3; b.x += (player.x - 250 - b.x) * 0.015; b.y += (player.y - b.y) * 0.015;
+        b.y += Math.sin(b.timer/20) * 3; b.x += (player.x - 250 - b.x) * 0.025; b.y += (player.y - b.y) * 0.025; // Increased aggression
         b.x = Math.max(100, Math.min(850, b.x)); b.y = Math.max(50, Math.min(550, b.y));
-        if(b.timer % 80 === 0) { let r = Math.random(); if(r < 0.6) b.state = 'combo-prep'; else if (r < 0.8) b.state = 'prep-orbs'; else b.state = 'prep-melee'; b.timer = 0; }
+        if(b.timer % 45 === 0) { let r = Math.random(); if(r < 0.6) b.state = 'combo-prep'; else if (r < 0.8) b.state = 'prep-orbs'; else b.state = 'prep-melee'; b.timer = 0; } // Shorter idle
     } else if(b.state === 'combo-prep') {
-        vFx.push({type:'circ', x:b.x, y:b.y, r: 120, c:`rgba(255, 50, 0, ${b.timer/40})`});
+        indicators.push({type:'circ', x:b.x, y:b.y, r: 120, c:`rgba(255, 255, 255, ${b.timer/40})`}); // WHITE INDICATOR
         if(b.timer > 40) { b.state = 'combo-dash-in'; b.timer = 0; b.tx = player.x; b.ty = player.y; }
     } else if(b.state === 'combo-dash-in') {
-        b.x += (b.tx - b.x) * 0.25; b.y += (b.ty - b.y) * 0.25;
+        b.x += (b.tx - b.x) * 0.35; b.y += (b.ty - b.y) * 0.35; // Faster dash
         if(Math.hypot(b.tx - b.x, b.ty - b.y) < 30 || b.timer > 25) { b.state = 'combo-attack'; b.timer = 0; }
     } else if(b.state === 'combo-attack') {
         spawnFx(b.x, b.y, '#f30', 30, 25, 20, 8);
-        if(Math.hypot(player.x - b.x, player.y - b.y) < 300 && !player.isInvuln) { player.hp -= 40; roundStats.dmgTaken += 40; screenShake = 30; refreshSkillPointsUI(); }
+        let distSq = Math.pow(player.x - b.x, 2) + Math.pow(player.y - b.y, 2);
+        if(distSq < 90000 && !player.isInvuln) { player.hp -= 40; roundStats.dmgTaken += 40; screenShake = 30; refreshSkillPointsUI(); }
         b.state = 'combo-dash-back'; b.timer = 0;
     } else if(b.state === 'combo-dash-back') {
         b.x += (850 - b.x) * 0.2; b.y += (player.y - b.y) * 0.3; 
         if(b.x > 840 || b.timer > 25) { b.state = 'prep-breath'; b.timer = 0; b.x = 850; }
     } else if(b.state === 'prep-orbs') {
-        vFx.push({type:'circ', x:b.x, y:b.y, r:200, c:`rgba(255, 100, 0, ${(b.timer/50)*0.3})`});
+        indicators.push({type:'circ', x:b.x, y:b.y, r:200, c:`rgba(255, 255, 255, ${(b.timer/50)*0.3})`}); // WHITE
         if(b.timer > 50) { b.state='idle'; b.timer=0; for(let i=0; i<4; i++) { bossProjectiles.push({x: b.x, y: b.y + (i-1.5)*50, spd: 6, life: 300}); } }
     } else if(b.state === 'prep-melee') {
-        vFx.push({type:'circ', x:b.x, y:b.y, r:380, c:`rgba(255, 0, 0, ${(b.timer/120)*0.3})`}); 
+        indicators.push({type:'circ', x:b.x, y:b.y, r:380, c:`rgba(255, 255, 255, ${(b.timer/120)*0.3})`}); // WHITE
         if(b.timer > 120) { b.state='melee-hit'; b.timer=0; }
     } else if(b.state === 'melee-hit') {
         spawnFx(b.x, b.y, '#f00', 40, 30, 20, 10);
-        if(Math.hypot(player.x - b.x, player.y - b.y) < 380 && !player.isInvuln) { player.hp -= 80; roundStats.dmgTaken += 80; screenShake = 50; refreshSkillPointsUI(); }
+        let distSq = Math.pow(player.x - b.x, 2) + Math.pow(player.y - b.y, 2);
+        if(distSq < 144400 && !player.isInvuln) { player.hp -= 80; roundStats.dmgTaken += 80; screenShake = 50; refreshSkillPointsUI(); }
         if(b.timer > 20) b.state = 'idle';
     } else if(b.state === 'prep-breath') {
-        vFx.push({type:'cone', x:b.x-50, y:b.y, a:Math.PI, s:Math.PI/8, l:1500, c:`rgba(255, 50, 0, ${(b.timer/80)*0.5})`});
+        indicators.push({type:'cone', x:b.x-50, y:b.y, a:Math.PI, s:Math.PI/8, l:1500, c:`rgba(255, 255, 255, ${(b.timer/80)*0.5})`}); // WHITE
         if(b.timer % 3 === 0) spawnFx(b.x-70, b.y, '#fc0', 2, 10, 15, 6);
         if(b.timer > 80) { b.state='breath-hit'; b.timer=0; }
     } else if(b.state === 'breath-hit') {
@@ -655,76 +710,51 @@ function updateBoss(b) {
     }
 }
 
-// FIXED COLLISION ENGINE
-function checkLineCircle(x1, y1, x2, y2, cx, cy, r) {
-    let dx = x2 - x1;
-    let dy = y2 - y1;
-    let fx = x1 - cx;
-    let fy = y1 - cy;
-    
-    let a = dx * dx + dy * dy;
-    let b = 2 * (fx * dx + fy * dy);
-    let c = (fx * fx + fy * fy) - r * r;
-    
-    let discriminant = b * b - 4 * a * c;
-    
-    if (discriminant < 0) {
-        return false;
-    }
-    
-    discriminant = Math.sqrt(discriminant);
-    
-    let t1 = (-b - discriminant) / (2 * a);
-    let t2 = (-b + discriminant) / (2 * a);
-    
-    if ((t1 >= 0 && t1 <= 1) || (t2 >= 0 && t2 <= 1)) {
-        return true;
-    }
-    
-    return false;
-}
-
 function drawPlayer(ctx, p) {
     ctx.save(); ctx.translate(p.x + 16, p.y + 16); ctx.rotate(p.aimAngle); 
     
+    // BACKPACK / Focus
     ctx.fillStyle = "#111"; ctx.fillRect(-16, -8, 6, 16); ctx.fillStyle = p.colors.visor; ctx.fillRect(-14, -6, 2, 12);
+    
     if(p.class === 'mage') {
-        let t = Date.now()/200; ctx.fillStyle = p.colors.visor; let orbPoints = [];
-        for(let i=0; i<3; i++){ let ox = Math.cos(t + i*2.1) * 35; let oy = Math.sin(t + i*2.1) * 35; orbPoints.push({x: ox, y: oy}); ctx.beginPath(); ctx.arc(ox, oy, 5, 0, Math.PI*2); ctx.fill(); }
-        ctx.strokeStyle = p.colors.visor; ctx.globalAlpha = 0.5; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(orbPoints[0].x, orbPoints[0].y); ctx.lineTo(orbPoints[1].x, orbPoints[1].y); ctx.lineTo(orbPoints[2].x, orbPoints[2].y); ctx.closePath(); ctx.stroke(); ctx.globalAlpha = 1.0;
+        ctx.fillStyle = "#222"; ctx.fillRect(-8, -6, 16, 12); 
+        ctx.fillStyle = p.colors.visor; ctx.fillRect(-4, -4, 8, 8); 
     } else if(p.class === 'warrior') {
         ctx.fillStyle = "#222"; ctx.fillRect(-15, -22, 12, 12); ctx.fillRect(3, -22, 12, 12);
     }
+
     ctx.fillStyle = p.colors.pants; let legOffset = Math.sin(p.legSwing) * 8; ctx.fillRect(-10, -12 + legOffset, 12, 10); ctx.fillRect(-10, 2 - legOffset, 12, 10);
-    
     let bG = ctx.createLinearGradient(-12, 0, 12, 0); bG.addColorStop(0, "#111"); bG.addColorStop(1, p.colors.shirt);
     ctx.fillStyle = bG; ctx.fillRect(-12, -14, 24, 28); 
     ctx.fillStyle = "#111"; ctx.fillRect(-8, -18, 12, 8); ctx.fillRect(-8, 10, 12, 8);  
     ctx.fillStyle = p.colors.skin; ctx.beginPath(); ctx.arc(0, 0, 10, 0, Math.PI*2); ctx.fill();
     ctx.fillStyle = "#111"; ctx.fillRect(-2, -8, 12, 16); ctx.fillStyle = p.colors.visor; ctx.fillRect(2, -6, 6, 12); 
     
+    // OMNIDIRECTIONAL ANIMATIONS
     if(p.class === 'warrior') {
         ctx.save();
-        if(p.atkFrame > 0) { let prog = 1 - (p.atkFrame / 16); ctx.rotate(-Math.PI/2.5 + prog * (Math.PI / 1.25)); }
+        if(p.atkFrame > 0) { let prog = 1 - (p.atkFrame / 16); ctx.rotate(prog * Math.PI * 2); } // Full 360 Spin
         ctx.fillStyle = "#222"; ctx.fillRect(5, -6, 50, 12); ctx.fillStyle = p.colors.visor; ctx.fillRect(10, -4, 45, 8); 
         ctx.fillStyle = "#111"; for(let i=0; i<4; i++) { ctx.fillRect(15 + i*10, -4, 2, 8); } ctx.fillStyle = "#111"; ctx.fillRect(0, -10, 10, 20); ctx.restore();
+        
         if(p.atkFrame > 0) {
             let r = p.atkRadius + (p.isRaging>0 ? 50 : 0); let a = p.atkFrame / 16;
             ctx.lineWidth = 15; ctx.lineCap = "round"; ctx.strokeStyle = `rgba(255, 255, 255, ${a})`;
-            ctx.beginPath(); ctx.arc(0, 0, r, -0.2, 0.2); ctx.stroke();
+            ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI*2); ctx.stroke(); // Full Circle Whirlwind
             ctx.lineWidth = 30; ctx.strokeStyle = p.isRaging>0 ? `rgba(255,255,255,${a})` : p.colors.visor; ctx.globalAlpha = a * 0.7;
-            ctx.beginPath(); ctx.arc(0, 0, r*0.9, -0.4, 0.4); ctx.stroke(); ctx.globalAlpha = 1.0;
+            ctx.beginPath(); ctx.arc(0, 0, r*0.9, 0, Math.PI*2); ctx.stroke(); ctx.globalAlpha = 1.0;
         }
     } else if (p.class === 'mage') {
-        let rec = p.atkFrame > 0 ? (p.atkFrame/5) * 8 : 0;
-        ctx.fillStyle = "#222"; ctx.fillRect(8 - rec, -6, 20, 16); ctx.fillStyle = p.colors.visor; ctx.fillRect(12 - rec, -4, 15, 12); ctx.fillStyle = "#000"; ctx.fillRect(24 - rec, -2, 4, 8); 
         if(p.atkFrame > 0) {
-            ctx.fillStyle = "#aaa"; ctx.beginPath(); ctx.moveTo(12 - rec, -6); ctx.lineTo(20 - rec, -10); ctx.lineTo(20 - rec, -6); ctx.fill();
-            ctx.beginPath(); ctx.moveTo(12 - rec, 10); ctx.lineTo(20 - rec, 14); ctx.lineTo(20 - rec, 10); ctx.fill();
-            let r = p.atkRadius; let int = p.isRaging>0 ? 60 : 30; let wob = Math.sin(Date.now()/50)*5; 
-            ctx.fillStyle = p.colors.visor; ctx.globalAlpha = 0.6; ctx.fillRect(28 - rec, -int/2 + wob, r, int);
-            ctx.fillStyle = "#fff"; ctx.globalAlpha = 1.0; ctx.fillRect(28 - rec, -int/4 - wob/2, r, int/2);
+            let prog = 1 - (p.atkFrame / 5);
+            let r = p.atkRadius * prog; // Expanding Nova
+            ctx.strokeStyle = p.colors.visor; 
+            ctx.lineWidth = 15 * (1-prog); 
+            ctx.globalAlpha = 1-prog; 
+            ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI*2); ctx.stroke();
+            ctx.fillStyle = "#fff"; ctx.globalAlpha = (1-prog)*0.5;
+            ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI*2); ctx.fill();
+            ctx.globalAlpha = 1.0;
         }
     }
     ctx.restore();
@@ -761,17 +791,22 @@ function drawUpgradedDrake(ctx, b) {
     ctx.restore();
 }
 
-function draw() {
+function render() {
     ctx.save();
-    if(screenShake > 0) { ctx.translate((Math.random()-0.5)*screenShake, (Math.random()-0.5)*screenShake); screenShake *= 0.8; if(screenShake < 0.5) screenShake = 0; }
+    if(screenShake > 0) { ctx.translate((Math.random()-0.5)*screenShake, (Math.random()-0.5)*screenShake); }
     ctx.drawImage(bgCanvas, 0, 0);
     
     if(gameState === 'PLAYING') {
+        
+        indicators.forEach(ind => {
+            ctx.fillStyle = ind.c; 
+            if(ind.type === 'circ') { ctx.beginPath(); ctx.arc(ind.x, ind.y, ind.r, 0, Math.PI*2); ctx.fill(); } 
+            else if (ind.type === 'cone') { ctx.beginPath(); ctx.moveTo(ind.x, ind.y); ctx.arc(ind.x, ind.y, ind.l, ind.a - ind.s, ind.a + ind.s); ctx.closePath(); ctx.fill(); }
+        });
+
         for(let i = vFx.length - 1; i >= 0; i--) {
             let e = vFx[i]; let a = e.l / e.ml;
-            if(e.type === 'circ') { ctx.fillStyle = e.c; ctx.beginPath(); ctx.arc(e.x, e.y, e.r, 0, Math.PI*2); ctx.fill(); } 
-            else if (e.type === 'cone') { ctx.fillStyle = e.c; ctx.beginPath(); ctx.moveTo(e.x, e.y); ctx.arc(e.x, e.y, e.l, e.a - e.s, e.a + e.s); ctx.closePath(); ctx.fill(); }
-            else if(e.t === 'ring') { ctx.strokeStyle = e.c; ctx.lineWidth = 20 * a; ctx.globalAlpha = a; ctx.beginPath(); ctx.arc(e.x, e.y, e.mr - (e.mr * a), 0, Math.PI*2); ctx.stroke(); ctx.globalAlpha = 1.0; } 
+            if(e.t === 'ring') { ctx.strokeStyle = e.c; ctx.lineWidth = 20 * a; ctx.globalAlpha = a; ctx.beginPath(); ctx.arc(e.x, e.y, e.mr - (e.mr * a), 0, Math.PI*2); ctx.stroke(); ctx.globalAlpha = 1.0; } 
             else if (e.t === 'eruption') {
                 ctx.strokeStyle = e.c; ctx.lineWidth = 5 * a; ctx.globalAlpha = a; let r = e.mr - (e.mr * a); ctx.beginPath(); ctx.arc(e.x, e.y, r, 0, Math.PI*2); ctx.stroke();
                 for(let k=0; k<6; k++) { ctx.beginPath(); ctx.moveTo(e.x, e.y); ctx.lineTo(e.x + Math.cos(k*Math.PI/3)*r*1.5, e.y + Math.sin(k*Math.PI/3)*r*1.5); ctx.stroke(); } ctx.globalAlpha = 1.0;
@@ -782,16 +817,18 @@ function draw() {
             } else if (e.t === 'flimp') {
                 ctx.fillStyle = "#fc0"; ctx.globalAlpha = a; ctx.beginPath(); ctx.arc(e.x, e.y, 30*a, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha = 1.0;
             }
-            if(!e.type) { e.l--; if(e.l <= 0) vFx.splice(i, 1); }
         }
         
         drops.forEach(d => { ctx.fillStyle = '#0f6'; ctx.beginPath(); ctx.arc(d.x, d.y + Math.sin(Date.now()/150)*4, 6, 0, Math.PI*2); ctx.fill(); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(d.x, d.y + Math.sin(Date.now()/150)*4, 2, 0, Math.PI*2); ctx.fill(); });
-        for(let i = player.ghostTrails.length - 1; i >= 0; i--) { let t = player.ghostTrails[i]; ctx.save(); ctx.translate(t.x + 16, t.y + 16); ctx.globalAlpha = t.life / 10; ctx.fillStyle = t.color; ctx.fillRect(-12, -14, 24, 28); ctx.restore(); t.life--; if(t.life<=0) player.ghostTrails.splice(i,1); }
+        for(let i = player.ghostTrails.length - 1; i >= 0; i--) { let t = player.ghostTrails[i]; ctx.save(); ctx.translate(t.x + 16, t.y + 16); ctx.globalAlpha = t.life / 10; ctx.fillStyle = t.color; ctx.fillRect(-12, -14, 24, 28); ctx.restore(); }
         
+        // VIEWPORT CULLING FOR PERFORMANCE (Don't draw massive hordes completely offscreen)
         enemies.forEach(en => { 
             if(en.type !== 'boss') {
-                ctx.save(); ctx.translate(en.x, en.y); ctx.rotate(en.angle); let scale = 1 + Math.sin(en.wingTimer)*0.05; ctx.scale(scale, scale);
-                ctx.drawImage(mfSprites[Math.floor((en.wingTimer % Math.PI) / (Math.PI/3))%3], -40, -40); ctx.restore();
+                if(en.x > -100 && en.x < 1100 && en.y > -100 && en.y < 750) {
+                    ctx.save(); ctx.translate(en.x, en.y); ctx.rotate(en.angle); let scale = 1 + Math.sin(en.wingTimer)*0.05; ctx.scale(scale, scale);
+                    ctx.drawImage(mfSprites[Math.floor((en.wingTimer % Math.PI) / (Math.PI/3))%3], -40, -40); ctx.restore();
+                }
             } 
         });
         enemies.forEach(en => { if(en.type === 'boss') drawUpgradedDrake(ctx, en); });
@@ -799,21 +836,46 @@ function draw() {
         drawPlayer(ctx, player);
         if(player.shieldAlpha > 0) { ctx.strokeStyle = player.colors.visor; ctx.globalAlpha = player.shieldAlpha; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(player.x+16, player.y+16, 40, 0, Math.PI*2); ctx.stroke(); ctx.globalAlpha = 1.0; }
         
-        for(let i = particles.length - 1; i >= 0; i--) { let p = particles[i]; ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, p.sz, p.sz); p.x += p.vx; p.y += p.vy; p.life--; if(p.life <= 0) particles.splice(i,1); }
+        for(let i = particles.length - 1; i >= 0; i--) { let p = particles[i]; ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, p.sz, p.sz); }
         bossProjectiles.forEach(p => { ctx.fillStyle = "#f50"; ctx.beginPath(); ctx.arc(p.x, p.y, 10, 0, Math.PI*2); ctx.fill(); ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2); ctx.fill(); });
         
-        if(!isMobile || rightJoy.active) { ctx.strokeStyle = player.colors.visor; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(mouseX - 12, mouseY); ctx.lineTo(mouseX + 12, mouseY); ctx.moveTo(mouseX, mouseY - 12); ctx.lineTo(mouseX, mouseY + 12); ctx.stroke(); }
-        if(isMobile) {
+        // Render Enemy Projectiles
+        enemyProjectiles.forEach(p => { ctx.fillStyle = "#f0f"; ctx.beginPath(); ctx.arc(p.x, p.y, 6, 0, Math.PI*2); ctx.fill(); ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI*2); ctx.fill(); });
+        
+        if(isMobile && leftJoy.active) {
             ctx.fillStyle = "rgba(255,255,255,0.2)"; ctx.strokeStyle = "rgba(255,255,255,0.5)"; ctx.lineWidth=2;
-            if(leftJoy.active) { ctx.beginPath(); ctx.arc(leftJoy.x, leftJoy.y, 40, 0, Math.PI*2); ctx.stroke(); ctx.beginPath(); ctx.arc(leftJoy.currX, leftJoy.currY, 20, 0, Math.PI*2); ctx.fill(); }
-            if(rightJoy.active) { ctx.beginPath(); ctx.arc(rightJoy.x, rightJoy.y, 40, 0, Math.PI*2); ctx.stroke(); ctx.beginPath(); ctx.arc(rightJoy.currX, rightJoy.currY, 20, 0, Math.PI*2); ctx.fill(); }
+            ctx.beginPath(); ctx.arc(leftJoy.x, leftJoy.y, 40, 0, Math.PI*2); ctx.stroke(); ctx.beginPath(); ctx.arc(leftJoy.currX, leftJoy.currY, 20, 0, Math.PI*2); ctx.fill();
         }
     }
     ctx.restore();
-    vFx = vFx.filter(e => !e.type); // Clear indicators
-    update(); requestAnimationFrame(draw);
 }
-draw();
+
+// -----------------------------------------------------
+// 240Hz FIX: TIME-STEP GAME LOOP
+// -----------------------------------------------------
+let lastTime = performance.now();
+let accumulator = 0;
+const TIME_STEP = 1000 / 60; // Exact 60 logic ticks per second
+
+function gameLoop(time) {
+    let deltaTime = time - lastTime;
+    lastTime = time;
+    
+    if (deltaTime > 250) deltaTime = 250; 
+    
+    accumulator += deltaTime;
+    
+    while (accumulator >= TIME_STEP) {
+        update();
+        accumulator -= TIME_STEP;
+    }
+    
+    render();
+    requestAnimationFrame(gameLoop);
+}
+
+requestAnimationFrame(gameLoop);
+
 </script>
 </body>
 </html>
